@@ -1,0 +1,46 @@
+.container {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stars {
+    color: #DDD;
+    line-height: 1;
+}
+
+.starFull {
+    color: var(--color-warning);
+}
+
+.starHalf {
+    position: relative;
+    color: var(--color-warning);
+    /* Should probably be partial, but simple full color for half is generic. Or use icon */
+    /* For simplicity in vanilla CSS without SVG, let's just make it colored. 
+     Real implementation would use specific logic or icon */
+    opacity: 0.6;
+}
+
+.starEmpty {
+    color: #E0E0E0;
+}
+
+.ratingValue {
+    font-weight: 700;
+    color: var(--color-warning);
+    margin-left: 4px;
+}
+
+/* Sizes */
+.sm {
+    font-size: 0.8rem;
+}
+
+.md {
+    font-size: 1.0rem;
+}
+
+.lg {
+    font-size: 1.5rem;
+}

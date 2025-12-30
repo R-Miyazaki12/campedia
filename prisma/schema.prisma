@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Campsite {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  editorVoice String
+  lat         Float
+  lng         Float
+  address     String
+  accessNote  String?
+  
+  // JSON fields for arrays/objects in SQLite (Prisma supports JSON, but SQLite stores as string usually, but Prisma handles it if version allows or we map it)
+  // Actually simplify: 
+  // Vibe tags -> Join string or separate table? Simple string for now "tag1,tag2" or JSON if supported.
+  // SQLite supports JSON.
+  vibeTags    String   // Store as JSON string "['Lake', 'Solo']"
+  
+  noiseLevel  Int
+  facilities  String   // JSON string "['Power', 'Water']"
+  
+  images      String   // JSON string "['url1', 'url2']"
+  youtubeVideoId String?
+  videoLinks     String   @default("[]") // JSON string for additional video URLs
+
+  nearbyOnsenName String?
+  nearbyOnsenTime Int?
+  nearbySuperName String?
+  nearbySuperTime Int?
+  
+  // Ratings (We can calculate total on fly, but storing might be faster. Or just store raw reviews and aggregate?
+  // User wants "Rating System".
+  // Let's store aggregate ratings in Campsite for performance, and update on review approval.
+  ratingTotal       Float @default(0)
+  ratingNature      Float @default(0)
+  ratingFacilities  Float @default(0)
+  ratingCleanliness Float @default(0)
+  ratingAccess      Float @default(0)
+  ratingQuietness   Float @default(0)
+
+  reviews     Review[]
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  campsiteId String
+  campsite   Campsite @relation(fields: [campsiteId], references: [id])
+  
+  userName  String
+  date      DateTime @default(now())
+  content   String
+  
+  ratingTotal       Int
+  
+  // We might want detailed ratings per review too if we aggregate them?
+  // For simplicity, let's assume user gives one "Total Rating" OR detailed.
+  // The charts implied detailed ratings. So review should have detailed ratings.
+  ratingNature      Int
+  ratingFacilities  Int
+  ratingCleanliness Int
+  ratingAccess      Int
+  ratingQuietness   Int
+  
+  isApproved Boolean @default(false)
+}

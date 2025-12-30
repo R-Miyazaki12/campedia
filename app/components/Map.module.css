@@ -1,0 +1,22 @@
+.container {
+    height: 500px;
+    width: 100%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.map {
+    height: 100%;
+    width: 100%;
+}
+
+.loading {
+    height: 500px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-surface);
+    color: var(--color-text-muted);
+}

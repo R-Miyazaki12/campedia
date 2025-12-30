@@ -1,27 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* 
+     Forest Core Palette inspired by Insider Perks
+     Base (70%): Sand Taupe / Moss / Charcoal
+     Accent (20%): Terracotta / Forest Green
+     Contrast (10%): Volcanic Black
+  */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Light Theme Backgrounds */
+  --color-bg-main: #F4F3EF;
+  /* Sand Taupe / Off-white (Paper-like) */
+  --color-bg-surface: #FFFFFF;
+  /* Clean White */
+  --color-bg-surface-glass: rgba(255, 255, 255, 0.8);
+  /* Frosted Glass Light */
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  /* Primary Colors */
+  --color-primary: #4A6741;
+  /* Forest Green / Olive */
+  --color-primary-hover: #3A5233;
+  --color-secondary: #D97D54;
+  /* Terracotta / Rust (Accent) */
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Text */
+  --color-text-main: #2C352D;
+  /* Charcoal / Deep Forest */
+  --color-text-muted: #6B726A;
+  /* Stone Gray */
+  --color-border: #D8DCD6;
+  /* Light Stone */
+
+  /* Status Colors */
+  --color-success: #558B2F;
+  /* Fresh Green */
+  --color-warning: #FFA000;
+  /* Amber */
+  --color-danger: #D32F2F;
+  /* Red Clay */
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* Fonts */
+  --font-main: 'Inter', system-ui, sans-serif;
+  --font-jp: 'Noto Sans JP', sans-serif;
 }
 
 * {
@@ -30,13 +63,43 @@ body {
   margin: 0;
 }
 
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+  font-family: var(--font-jp), var(--font-main);
+  /* Prioritize JP font */
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+/* Utilities */
+.glass-panel {
+  background: var(--color-bg-surface-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
 a {
   color: inherit;
   text-decoration: none;
+  transition: opacity 0.2s;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+a:hover {
+  opacity: 0.8;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
 }
