@@ -149,6 +149,7 @@ async function main() {
                 facilities: JSON.stringify(site.features.facilities),
                 images: JSON.stringify(site.media.images),
                 youtubeVideoId: site.media.youtubeVideoId || null,
+                isPublic: true, // Default seed data is public
                 nearbyOnsenName: site.nearby.onsen?.name || null,
                 nearbyOnsenTime: site.nearby.onsen?.driveTimeMin || null,
                 nearbySuperName: site.nearby.supermarket?.name || null,

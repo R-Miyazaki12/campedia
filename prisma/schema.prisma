@@ -30,6 +30,7 @@ model Campsite {
   images      String   // JSON string "['url1', 'url2']"
   youtubeVideoId String?
   videoLinks     String   @default("[]") // JSON string for additional video URLs
+  isPublic       Boolean  @default(false) // Validation/Publication status
 
   nearbyOnsenName String?
   nearbyOnsenTime Int?

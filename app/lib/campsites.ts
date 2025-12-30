@@ -47,7 +47,8 @@ function mapToCampingSpot(item: any): CampingSpot {
 }
 
 export async function getCampsites(): Promise<CampingSpot[]> {
-    const items = await prisma.campsite.findMany({
+    const sites = await prisma.campsite.findMany({
+        where: { isPublic: true },
         include: {
             reviews: {
                 where: { isApproved: true }, // Only show approved reviews
@@ -55,7 +56,7 @@ export async function getCampsites(): Promise<CampingSpot[]> {
             }
         }
     });
-    return items.map(mapToCampingSpot);
+    return sites.map(mapToCampingSpot);
 }
 
 export async function getCampsite(id: string): Promise<CampingSpot | null> {

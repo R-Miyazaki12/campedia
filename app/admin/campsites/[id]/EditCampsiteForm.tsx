@@ -15,6 +15,7 @@ type CampsiteData = {
     youtubeVideoId: string | null;
     videoLinks: string; // JSON string
     images: string; // JSON string
+    isPublic: boolean;
 };
 
 export default function EditCampsiteForm({ site }: { site: CampsiteData }) {
@@ -153,7 +154,16 @@ export default function EditCampsiteForm({ site }: { site: CampsiteData }) {
                 <small style={{ color: '#666' }}>※1行に1つのURLを入力（2つ目以降の動画としてリンク表示されます）</small>
             </div>
 
-            <button type="submit" style={{ padding: '12px', background: '#0070f3', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem' }}>
+            <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '20px 0' }} />
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '15px', background: site.isPublic ? '#e8f5e9' : '#fff3e0', borderRadius: '8px', border: '1px solid #ddd' }}>
+                <input type="checkbox" name="isPublic" id="isPublic" defaultChecked={site.isPublic} style={{ transform: 'scale(1.5)', cursor: 'pointer' }} />
+                <label htmlFor="isPublic" style={{ fontWeight: 'bold', cursor: 'pointer', fontSize: '1.1rem' }}>
+                    サイトに公開する (Publish)
+                </label>
+            </div>
+
+            <button type="submit" style={{ padding: '12px', background: '#0070f3', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', marginTop: '10px' }}>
                 更新する
             </button>
         </form>

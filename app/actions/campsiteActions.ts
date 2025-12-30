@@ -4,11 +4,13 @@ import { prisma } from '../lib/db';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
+// Update existing campsite
 export async function updateCampsite(id: string, formData: FormData) {
     const name = formData.get('name') as string;
     const description = formData.get('description') as string;
     const editorVoice = formData.get('editorVoice') as string;
     const address = formData.get('address') as string;
+    const isPublic = formData.get('isPublic') === 'on';
 
     // Tags (comma separated)
     const vibeTagsRaw = formData.get('vibeTags') as string;
@@ -38,7 +40,8 @@ export async function updateCampsite(id: string, formData: FormData) {
             facilities,
             youtubeVideoId,
             videoLinks,
-            images
+            images,
+            isPublic
         }
     });
 
@@ -46,4 +49,59 @@ export async function updateCampsite(id: string, formData: FormData) {
     revalidatePath(`/spot/${id}`);
     revalidatePath('/');
     redirect('/admin/campsites');
+}
+
+// Create new campsite (Admin)
+export async function createCampsite(formData: FormData) {
+    const name = formData.get('name') as string;
+
+    // Create with minimal defaults
+    await prisma.campsite.create({
+        data: {
+            name,
+            description: '',
+            editorVoice: '',
+            address: '',
+            lat: 0,
+            lng: 0,
+            vibeTags: '[]',
+            facilities: '[]',
+            images: '[]',
+            noiseLevel: 3,
+            ratingTotal: 0,
+            isPublic: false // Start as draft
+        }
+    });
+
+    revalidatePath('/admin/campsites');
+    redirect('/admin/campsites');
+}
+
+// Submit Request (User)
+export async function submitCampsiteRequest(formData: FormData) {
+    const name = formData.get('name') as string;
+    const address = formData.get('address') as string;
+    const description = formData.get('description') as string;
+
+    if (!name || !address) throw new Error('Required fields missing');
+
+    await prisma.campsite.create({
+        data: {
+            name,
+            address,
+            description,
+            editorVoice: 'ユーザー投稿',
+            lat: 0,
+            lng: 0,
+            vibeTags: '[]',
+            facilities: '[]',
+            images: '[]',
+            noiseLevel: 3,
+            ratingTotal: 0,
+            isPublic: false // Pending approval
+        }
+    });
+
+    // No redirect, return success to show message
+    return { success: true };
 }
