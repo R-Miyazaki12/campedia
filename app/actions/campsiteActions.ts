@@ -82,6 +82,22 @@ export async function submitCampsiteRequest(formData: FormData) {
     const name = formData.get('name') as string;
     const address = formData.get('address') as string;
     const description = formData.get('description') as string;
+    const editorVoice = formData.get('editorVoice') as string;
+
+    // Optional Fields
+    const vibeTagsRaw = formData.get('vibeTags') as string;
+    const vibeTags = JSON.stringify(vibeTagsRaw ? vibeTagsRaw.split(',').map(s => s.trim()).filter(Boolean) : []);
+
+    const facilitiesRaw = formData.get('facilities') as string;
+    const facilities = JSON.stringify(facilitiesRaw ? facilitiesRaw.split(',').map(s => s.trim()).filter(Boolean) : []);
+
+    const youtubeVideoId = formData.get('youtubeVideoId') as string;
+
+    const videoLinksRaw = formData.get('videoLinks') as string;
+    const videoLinks = JSON.stringify(videoLinksRaw ? videoLinksRaw.split('\n').map(s => s.trim()).filter(Boolean) : []);
+
+    const imagesRaw = formData.get('images') as string;
+    const images = JSON.stringify(imagesRaw ? imagesRaw.split('\n').map(s => s.trim()).filter(Boolean) : []);
 
     if (!name || !address) throw new Error('Required fields missing');
 
@@ -89,13 +105,15 @@ export async function submitCampsiteRequest(formData: FormData) {
         data: {
             name,
             address,
-            description,
-            editorVoice: 'ユーザー投稿',
+            description: description || '',
+            editorVoice: editorVoice || 'ユーザー投稿',
             lat: 0,
             lng: 0,
-            vibeTags: '[]',
-            facilities: '[]',
-            images: '[]',
+            vibeTags,
+            facilities,
+            images,
+            youtubeVideoId: youtubeVideoId || null,
+            videoLinks,
             noiseLevel: 3,
             ratingTotal: 0,
             isPublic: false // Pending approval
